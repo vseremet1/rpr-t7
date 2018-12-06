@@ -15,7 +15,6 @@ public class Grad {
         brojStanovnika = 0;
         brojMjerenja = 0;
         temperature = null;
-
     }
 
     public Grad(String naziv, double[] temperature, int brojMjerenja) {
