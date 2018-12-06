@@ -57,12 +57,12 @@ public class Tutorijal {
          Node n = elementi.item(2);
          NodeList povrsina1 = n.getChildNodes();
 
-        
 
-         d.setPovrsina(Double.parseDouble(p));
+
+
 
          String p = elementi.item(3).getTextContent();
-         d.se
+
 
     }
 
