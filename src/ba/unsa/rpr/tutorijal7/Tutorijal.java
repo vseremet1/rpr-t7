@@ -1,5 +1,12 @@
 package ba.unsa.rpr.tutorijal7;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
@@ -8,27 +15,91 @@ import java.util.Scanner;
 
 public class Tutorijal {
 
-
-    public static Drzava ucitajXml (ArrayList<Grad> g) throws FileNotFoundException {
- 
+    public static void ispisiElement(Element element,ArrayList<Grad>g) {
 
 
+        NodeList djeca = element.getChildNodes();
 
-
-
-    }
-
-    public static void zapisiXmlDrzave (Drzava d) {
-
-        XMLEncoder izlaz= null;
-        try {
-            izlaz = new XMLEncoder(new FileOutputStream("drzave.xml"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        for(int i = 0; i < djeca.getLength(); i++) {
+            Node dijete = djeca.item(i);
+            if (dijete instanceof Element) {
+                upisiElement((Element) dijete,g);
+                ispisiElement((Element)dijete,g);
+            }
         }
-        izlaz.writeObject(d);
-        izlaz.close();
     }
+
+    public static void upisiElement(Element drzava,ArrayList<Grad> g) {
+
+      Drzava d = new Drzava();
+      d.setNaziv(drzava.getTagName());
+
+      NodeList elementi = drzava.getChildNodes();
+      String naziv = elementi.item(0).getTextContent();
+      Node glavniGrad = elementi.item(1).getFirstChild();
+      String x = glavniGrad.getTextContent();
+
+        g =  ucitajGradove();
+
+
+
+         for (Grad g1 : g) {
+             if (x.equals(g1.getNaziv())) {
+                 double[] temp = new double[1000];
+                 temp = g1.getTemperature();
+                 Grad gr = new Grad(x, temp, g1.getBrojMjerenja());
+                 d.setGlavniGrad(gr);
+             }
+
+         }
+
+
+         Node n = elementi.item(2);
+         NodeList povrsina1 = n.getChildNodes();
+
+        
+
+         d.setPovrsina(Double.parseDouble(p));
+
+         String p = elementi.item(3).getTextContent();
+         d.se
+
+    }
+
+    public static UN ucitajXml (ArrayList<Grad> g) throws FileNotFoundException {
+
+        UN un = new UN();
+
+
+
+
+
+
+        Document xmldoc = null;
+        try {
+            DocumentBuilder docReader
+                    = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            xmldoc = (Document) docReader.parse(new File("drzave.xml"));
+        } catch (Exception e) {
+            System.out.println("drzave.xml nije validan XML dokument");
+        }
+
+        Element korijen = (Element) xmldoc.getDefaultRootElement();
+        ispisiElement(korijen,g);
+
+
+
+
+
+
+
+
+
+ return un;
+
+    }
+
+
 
 
     public static void zapisiXml (UN un) {
@@ -91,7 +162,7 @@ public class Tutorijal {
         UN un = new UN();
        zapisiXml(un);
        Drzava d = new Drzava();
-       zapisiXmlDrzave(d);
+
 
 
      }
