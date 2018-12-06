@@ -13,7 +13,6 @@ public class UN implements Serializable {
     public UN ()
     {
         drzave=null;
-
     }
 
     public ArrayList<Drzava> getDrzave() {
