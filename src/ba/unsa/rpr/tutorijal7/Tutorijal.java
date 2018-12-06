@@ -9,9 +9,29 @@ import java.util.Scanner;
 public class Tutorijal {
 
 
+    public static Drzava ucitajXml (ArrayList<Grad> g) throws FileNotFoundException {
+ 
 
 
-     public static void zapisiXml (UN un) {
+
+
+
+    }
+
+    public static void zapisiXmlDrzave (Drzava d) {
+
+        XMLEncoder izlaz= null;
+        try {
+            izlaz = new XMLEncoder(new FileOutputStream("drzave.xml"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        izlaz.writeObject(d);
+        izlaz.close();
+    }
+
+
+    public static void zapisiXml (UN un) {
 
          XMLEncoder izlaz= null;
          try {
@@ -70,6 +90,8 @@ public class Tutorijal {
 
         UN un = new UN();
        zapisiXml(un);
+       Drzava d = new Drzava();
+       zapisiXmlDrzave(d);
 
 
      }
