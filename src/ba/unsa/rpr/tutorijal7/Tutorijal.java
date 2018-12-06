@@ -1,11 +1,30 @@
 package ba.unsa.rpr.tutorijal7;
 
-import java.io.File;
-import java.io.FileReader;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Tutorijal {
+
+
+
+
+     public static void zapisiXml (UN un) {
+
+         XMLEncoder izlaz= null;
+         try {
+              izlaz = new XMLEncoder(new FileOutputStream("un.xml"));
+         } catch (FileNotFoundException e) {
+             e.printStackTrace();
+         }
+         izlaz.writeObject(un);
+         izlaz.close();
+     }
+
+
+
 
 
     public static ArrayList<Grad> ucitajGradove() {
@@ -48,5 +67,10 @@ public class Tutorijal {
         for (Grad g : gradovi) {
             System.out.println(g);
         }
-    }
+
+        UN un = new UN();
+       zapisiXml(un);
+
+
+     }
 }
