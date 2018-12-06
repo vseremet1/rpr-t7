@@ -53,7 +53,6 @@ public class Tutorijal {
         return un;
     }
 
-
     public static Drzava upisiElement(Element drzava, ArrayList<Grad> gradovi) {
 
 
