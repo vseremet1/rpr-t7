@@ -13,7 +13,6 @@ public class Drzava implements Serializable {
 
 
     public Drzava() {
-
         naziv = "";
         brojStanovnika=0;
         povrsina=0;
