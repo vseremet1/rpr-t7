@@ -10,6 +10,14 @@ public class Grad {
     double[] temperature;
     int brojMjerenja;
 
+    public Grad() {
+        naziv = "";
+        brojStanovnika = 0;
+        brojMjerenja = 0;
+        temperature = null;
+
+    }
+
     public Grad(String naziv, double[] temperature, int brojMjerenja) {
         this.naziv = naziv;
         this.temperature = temperature;
@@ -20,13 +28,7 @@ public class Grad {
     // mora imati konstruktor bez parametara i da svi atributi moraju posjedovati settere i gettere po specifikaciji
 
 
-    public void Grad() {
-        naziv = "";
-        brojStanovnika = 0;
-        brojMjerenja = 0;
-        temperature = null;
 
-    }
 
     public int getBrojMjerenja() {
         return brojMjerenja;
