@@ -18,20 +18,17 @@ import java.util.Scanner;
 public class Tutorijal {
 
 
-
     public static UN ucitajXml(ArrayList<Grad> g) throws IOException, SAXException, ParserConfigurationException {
 
 
         UN un = new UN();
-        ArrayList<Drzava> d = new ArrayList<>();
-
+        ArrayList<Drzava> dr = new ArrayList<>();
 
         Document xmldoc = null;
 
         DocumentBuilder docReader
                 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        xmldoc = docReader.parse(new File("C:\\Users\\Korisnik\\IdeaProjects\\rpr-t75554433434\\drzave.xml"));
-
+        xmldoc = docReader.parse(new File("drzave.xml"));
 
         Element korijen = xmldoc.getDocumentElement();
         Drzava jednaDrzava = new Drzava();
@@ -44,50 +41,57 @@ public class Tutorijal {
         for (int i = 0; i < drzave.getLength(); i++) {  // djeca.getLength() je 2
             Node drzava = drzave.item(i);  // uzima jednu državu
             if (drzava instanceof Element) {
-                jednaDrzava = upisiElement((Element) drzava, gradovi);
-                d.add(jednaDrzava);
+                Drzava d = new Drzava();
+
+                NodeList elementiDrzave = drzava.getChildNodes();
+                String nazivDrzave;
+                if (elementiDrzave instanceof Element) {
+                    nazivDrzave = elementiDrzave.item(0).getTextContent();
+
+                    d.setNaziv(nazivDrzave);
+
+
+                    Node glavniGrad = elementiDrzave.item(1).getFirstChild();
+
+                    String imeGlavnogGrada;
+                    if (glavniGrad instanceof Element) {
+                        imeGlavnogGrada = glavniGrad.getTextContent();
+
+
+                        gradovi = ucitajGradove(); // učitava gradove iz mjerenja
+
+                        for (Grad grad : gradovi) {
+                            double[] temp;
+                            temp = grad.getTemperature();
+                            Grad gr = new Grad(grad.getNaziv(), temp, grad.getBrojMjerenja());
+
+                            if (imeGlavnogGrada.equals(grad.getNaziv()))
+                                d.setGlavniGrad(gr);
+                        }
+
+
+                        Node elementPovrsina = elementiDrzave.item(2);
+                        d.setJedinicaZaPovrsinu(elementPovrsina.getTextContent());
+
+                        Node elementpovrsina = elementiDrzave.item(2).getFirstChild();
+                        if (elementPovrsina instanceof Element) {
+                            String povrsina = elementpovrsina.getTextContent();
+                            d.setPovrsina(Double.parseDouble(povrsina));
+                        }
+
+
+                        dr.add(jednaDrzava);
+                    }
+
+                }
             }
         }
 
-        un.setDrzave(d);
+        un.setDrzave(dr);
         return un;
     }
 
-    public static Drzava upisiElement(Element drzava, ArrayList<Grad> gradovi) {
 
-
-        Drzava d = new Drzava();
-
-        NodeList elementiDrzave = drzava.getChildNodes();
-
-        String nazivDrzave = elementiDrzave.item(0).getTextContent();
-        d.setNaziv(nazivDrzave);
-
-
-        Node glavniGrad = elementiDrzave.item(1).getFirstChild();
-        String imeGlavnogGrada = glavniGrad.getTextContent();
-
-        gradovi = ucitajGradove(); // učitava gradove iz mjerenja
-
-        for (Grad grad : gradovi) {
-            double[] temp;
-            temp = grad.getTemperature();
-            Grad gr = new Grad(grad.getNaziv(), temp, grad.getBrojMjerenja());
-
-            if (imeGlavnogGrada.equals(grad.getNaziv()))
-                d.setGlavniGrad(gr);
-        }
-
-        Node elementPovrsina = elementiDrzave.item(2);
-        d.setJedinicaZaPovrsinu(elementPovrsina.getTextContent());
-
-        Node elementpovrsina = elementiDrzave.item(2).getFirstChild();
-        String povrsina = elementpovrsina.getTextContent();
-        d.setPovrsina(Double.parseDouble(povrsina));
-
-
-        return d;
-    }
 
 
     public static void zapisiXml(UN un) {
@@ -148,7 +152,8 @@ public class Tutorijal {
         zapisiXml(un);
         Drzava d = new Drzava();
 
-       // un = ucitajXml(gradovi);
+        un = ucitajXml(gradovi);
+         un.ispisi();
 
 
     }

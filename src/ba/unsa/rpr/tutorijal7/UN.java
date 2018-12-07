@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class UN implements Serializable {
 
-    ArrayList<ba.unsa.rpr.tutorijal7.Drzava> drzave = new ArrayList<>();
+    ArrayList<Drzava> drzave = new ArrayList<>();
 
 
     // mora imati konstruktor bez parametara i da svi atributi moraju posjedovati settere i gettere po specifikaciji
@@ -21,5 +21,20 @@ public class UN implements Serializable {
 
     public void setDrzave(ArrayList<Drzava> drzave) {
         this.drzave = drzave;
+    }
+
+    @Override
+    public String toString() {
+        return "UN{" +
+                "drzave=" + drzave +
+                '}';
+    }
+
+    public void ispisi ()
+    {
+        for (Drzava d: drzave)
+        {
+            System.out.println(d);
+        }
     }
 }
